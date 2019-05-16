@@ -8,7 +8,6 @@ class Song < ActiveRecord::Base
   include Slug
 
   def self.song_check(params)
-    binding.pry
     params[:genres][:ids] = [] if params[:genres][:ids].nil?
 
     if params[:song][:artist_id] == ''
@@ -16,10 +15,11 @@ class Song < ActiveRecord::Base
     end
 
     if params[:genres][:name] != ''
-      params[:genres][:ids] << Genre.find_or_create_by(name: params[:genres][:name]).id
+      params[:song][:genre_ids] << Genre.find_or_create_by(name: params[:genres][:name]).id
     end
 
-    song = Song.find_or_create_by(params[:song])
-    song.update genre_ids: (params[:genres][:ids])
+    song = Song.find_or_create_by(name: params[:song][:name])
+    song.update artist_id: (params[:song][:artist_id])
+    song.update genre_ids: (params[:song][:genre_ids])
   end
 end

@@ -8,7 +8,7 @@ class SongsController < ApplicationController
 
   post '/songs' do
     Song.song_check(params)
-    redirect "/songs/#{params[:song].slug}"
+    redirect "/songs/#{Song.find_by(name: params[:song][:name]).slug}"
   end
 
   get '/songs/new' do
@@ -31,6 +31,6 @@ class SongsController < ApplicationController
 
   patch '/songs/:slug' do
     Song.song_check(params)
-    redirect "/songs/#{Song.find_by(name:params[:song][:name]).slug}"
+    redirect "/songs/#{Song.find_by(name: params[:song][:name]).slug}"
   end
 end
