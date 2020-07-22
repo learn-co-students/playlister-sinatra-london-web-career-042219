@@ -1,0 +1,44 @@
+<h1><%= @song.name %></h1>
+<form action="/songs/<%=@song.slug%>" method="post">
+  <input type="hidden" name="_method" value="patch" />
+  <p>Song Name:
+    <input id="Name" name="song[name]" value="<%=@song.name%>" type="text">
+  </p>
+
+  <p>Artist:
+    <select name="song[artist_id]" id="Artist Name">
+      <option value="">New Artist</option>
+      <% @artists.each do |artist| %>
+        <option
+          <% if artist.name == @song.artist.name %>
+            selected
+          <% end %>
+          value="<%= artist.id %>">
+          <%= artist.name %>
+        </option>
+      <% end %>
+    </select>
+  </p>
+
+  <p>If the artist isn't in our library, enter a new artist here:
+    <input id="Artist Name" name="artist[name]" type="text">
+  </p>
+
+  <p>Genre:
+  <br>
+    <% @genres.each do |genre| %>
+      <input id="<%= genre.name%>" type="checkbox" name="song[genre_ids][]" value="<%= genre.id %>"
+      <% if @song.genre_ids.include? genre.id %>
+        checked
+      <% end %>>
+      <%= genre.name %>
+      </input>
+      <br>
+    <% end %>
+
+    <p>If this is a new genre, enter its name here:
+    <input id="new_genre_name" name="genres[name]" type="text">
+  </p>
+  </p>
+  <input id="Save" type="submit" value="Submit">
+</form>
